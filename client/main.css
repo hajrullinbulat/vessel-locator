@@ -9,3 +9,19 @@ html {
     padding: 0;
     margin: 0;
 }
+
+#app .searchVessel {
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    top: 10%;
+    width: 50%;
+    background-color: white;
+}
+
+#app .searchVessel input {
+    margin: 2px 15px 18px 15px;
+    width: 95%;
+}
