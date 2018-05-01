@@ -16,7 +16,7 @@ class MapPage extends React.Component<{}, State> {
     };
 
     vesselSelected = (lat: string, lng: string, vesselName: string) => {
-
+        this.setState({lat: parseFloat(lat), lng: parseFloat(lng), vesselName})
     };
 
     render() {

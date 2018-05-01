@@ -11,6 +11,8 @@ export interface State {
     vessels: Vessel[],
 }
 
+const Vessels = new Mongo.Collection("vessels");
+
 class SearchVesselContainer extends React.Component<Props, State> {
     state = {
         searchValue: "",
@@ -18,9 +20,35 @@ class SearchVesselContainer extends React.Component<Props, State> {
     };
 
     onChange = (searchValue) => {
+        this.setState({searchValue});
+        if (!searchValue || searchValue.length === 0) {
+            this.setState({vessels: []});
+        }
+        const vessels: Vessel[] = Vessels.find(
+            {name: {$regex: new RegExp(searchValue, "i")},},
+        ).fetch();
+        this.setState({vessels})
     };
 
     onSelected = (value) => {
+        const promise = new Promise((resolve, reject) => {
+            const vessel: Vessel = Vessels.findOne({name: value});
+            vessel ? resolve(vessel.MMSI) : reject(`"${value}" - vessel not found`)
+        }).then((MMSI: number) => {
+            return new Promise((resolve, reject) => {
+                Meteor.call('vessels.getLocation', {MMSI}, (err, result) => {
+                    if (err) reject(err);
+                    else if (result.data.result === "fail") reject(result.data.description);
+                    else if (result.found === 0) reject("Vessel location not found");
+                    else resolve(result.data.entries[0]);
+                });
+            });
+        }).then(result => {
+            const {lat, lng} = result;
+            this.props.onSelected(lat, lng, value);
+        }).catch(error => {
+            window.Materialize.toast(error, 3000);
+        });
     };
 
     render() {
