@@ -1,5 +1,6 @@
 import * as React from "react";
+import MapPage from "./screens/MapPage";
 
-const App = () => <div>INIT TEST</div>;
+const App = () => <MapPage/>;
 
 export default App;
