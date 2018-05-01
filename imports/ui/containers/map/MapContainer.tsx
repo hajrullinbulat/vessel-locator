@@ -5,13 +5,12 @@ import Map from "../../components/Map";
 export interface Props {
     lat?: number,
     lng?: number,
+    vesselName?: string,
 }
 
 class MapContainer extends React.Component<Props, {}> {
     render() {
-        // const {lat, lng} = this.props;
-        const lat = 50;
-        const lng = 50;
+        const {lat, lng, vesselName} = this.props;
         const isMarkerShown: boolean = !!lat && !!lng;
         const {key, version, apiUrl} = constants.googleMap;
         return (
@@ -24,6 +23,7 @@ class MapContainer extends React.Component<Props, {}> {
                     isMarkerShown: isMarkerShown,
                     lat: isMarkerShown && lat,
                     lng: isMarkerShown && lng,
+                    vesselName: vesselName,
                 }}
             />
         );

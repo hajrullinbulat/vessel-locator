@@ -6,12 +6,13 @@ export interface Props {
     isMarkerShown: boolean,
     lat?: number,
     lng?: number,
+    vesselName?: string,
 }
 
 const {MarkerWithLabel} = require("react-google-maps/lib/components/addons/MarkerWithLabel");
 
 export const Map = (props: Props) => {
-    const {lat, lng, isMarkerShown} = props;
+    const {lat, lng, isMarkerShown, vesselName} = props;
     const defaultCenter = constants.googleMap.defaultCenter;
     const defaultZoom = 3;
     const image = {
@@ -31,7 +32,7 @@ export const Map = (props: Props) => {
                         labelAnchor={new google.maps.Point(100, 0)}
                         labelStyle={{fontSize: "14px", width: "200px", textAlign: "center"}}
                         icon={image}>
-                        <div>Test ship</div>
+                        <div>{vesselName}</div>
                     </MarkerWithLabel>
                 )
             }
